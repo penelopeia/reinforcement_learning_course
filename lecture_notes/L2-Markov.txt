@@ -1,0 +1,144 @@
+Markov Decision Processes formally describe an environment for reinforcement learning (MDP)
+Start with the environment is fully observable
+	- the current state completely characterizes this process
+	- Almost all RL problems can be formalized as MDP's
+		- Optimal control primarily deals with continuous MDP's
+		- partially observed probelems can be converted into MDP's
+		- Bandits are MDP's with one state
+
+"The future is independant of the past given the present"
+Markov if and only if, 
+
+For a Markov state s and successor state sPrime, the state transition probability is defined by:
+	P(s sPrime) = P[S[t+1] = sPrime | St = s]
+
+State transition matrix P defines transition probabilities from all states s to all successor states sPrime,
+the matrix represents the probability of all successor states, given the current state, that is each row
+
+Markov process is a memoryless random process (a sequence of random states with the markov property)
+Markov Process (or Markov Chain) is a tuple (S, P)
+	- S is a (finite) set of states
+	- P is a state transition probability matrix
+	- transition property
+
+Based on a Markov Chain (sequence of states with some probability of transitioning to any other state) get some probability distribution based on generatign many random sequences. The sequences are the list of state transitions that get to the end (ex sleep in video)
+
+Markov Reward Process (MRP)
+	- Markov Process with value judgments
+	- (S, P, R, y)
+
+- R is a reward function, at time t in state S we will get some reward R at t+!
+- y is a discount factor, y is within [0,1]
+
+The return Gt is the total discounted reward from time-step t
+	- the rewards at each timestep summed up, with the discount applied
+	- the discount is the present value of future rewards
+		- discount factor of 0 is maximally short sighted, discounting all future rewards to only care about the initial
+			- "myopic" evaluation
+		- discount factor of 1 is maximally far sighted, discount 1 goes far into the future rewards
+			- "far-sighted" evaluation
+		- the value of receiving reward R after k+1 time-steps is (y^k)R
+
+What we are looking for is the expectation
+
+Most Markov reward and decision processes are discounted. Why?
+	- represent the fact that we do not have a perfect model
+	- uncertainty
+	- Mathematically convenient to discount rewards
+	- Avoids infinite returns in cyclic Markov processes
+	- Uncertainty about the future may not be fully represented
+	- If the reward is financial, immediate rewards may earn more interest than delayed rewards
+	- Animal/human behaviour shows preference for immediate reward
+	- it is sometimes possible to use undiscounted MArkov reward processes, (y=1) if all sequences terminate
+
+The value function v(s) gives the long term value of state s
+	- The expected return if you start in that state
+	- the state value function v(S) of an MRP is the expected return starting from state s
+		- v(s) = E[Gt | St = s]
+
+Review the change for if discount y = 1 or y = 0
+
+Bellman Equation for MRPs (used in dynamic programming)
+	The value function can be decomposed into two parts:
+		- immediate reward Rt+1
+		- discounted value of successor state yv(St+1)
+this equation gives Immediate reward and then the value of where you end up
+(law of intermediate expectations)
+
+Bellman equation is a linear equation, and can be solved directly
+	- computational complexity is O(n^3) for n states (not practical for large processes)
+	- direct solution only possible for small MRPs
+	- there are many iterative methods for large MRPs
+		- dynamic programming
+		- monte-carlo evaluation
+		- temporal difference learning
+
+Markov Decision Process (MDP) is a Markov Reward Process (MRP) with decisions. It is an environment in which all states are Markov
+	- ( S, A, P, R, y)
+	- S is a finite set of states
+	- A is a finite set of actions
+	- P is a state transition probability matrix
+	- R is a reward function
+	- y is a discount factor
+
+With MDP remove given probabilities and instead choose the action to take, not a stochastic random sampling thing
+
+Policy (formal term for making the decisions)
+	- policy (pi) is a distribution over actions given states, (make it stochastic)
+		- pi(a|s) = P[At = a | St = s]
+something the agent controls, a policy fully defines the behaviour of the agent
+MDP policies depend on the current state (not the history)
+Policies are stationary (time-independant)
+	At ~ pi(-|St), for all t greater than > 0
+
+We can always recover an MRP or Markov process from our Markov Decision Process:
+	- given an MDP M = (S,A,P,R,y) and a policy pi
+	- The state sequence S1, S2,... is a Markov process (S,P^pi)
+	- the state and reward sequence S1, R2, S2,... is a Markov Reward process (S,P^pi,R^pi,y)
+
+The state value function v sub pi of s of an MDP is the expected return starting from state s1 and then following policy pi
+	- what will be the reward in any state for a given policy/action
+	- get the expectation, when we sample all actions given the policy pi
+
+the action value function is the expected return starting from a state s, taking action a, and then following policy pi
+
+The state value function can again be decomposed into immediate reward plus discounted value of successor state, using Bellman Expectation Equation
+the action value function can similarly be decomposed
+
+Around 55 minutes, gets into bellman graphs that loses me
+stochastic
+
+The bellman Equation will give us our value
+
+Optimal Value Function
+	- Optimal State-value function is the maximum value function over all policies
+	- there are many policies, but we care about which of the policies lead to the best reward
+	- the optimal value state function just tells you the maximum reward you can expect from the system
+Optimal action value function 
+	- is the maximum action value function over all policies
+	- under all ways you can behave, tells the highest reward based on your action decisions
+	- the MDP is solved when you find q star, know the optimal value function
+
+just always take the action that gives me the higher q star to know the action for greatest success
+
+Optimal Policy
+	- partial ordering over policies
+	Theorem: for any Markov Decision Process
+	- there exists a policy that is better or equal to all other policies
+	- all optimal policies achieve the optimal value function
+	- all optimal policies achieve the optimal action value function
+
+Missed a lot of equation theory... returned at 1:30
+
+- Bellman Optimality Equation is non-linear
+- No closed form solution (in general)
+- Many iterative solution methods
+	- Value Iteration
+	- Policy Iteration
+	- Q-learning
+	- Sarsa
+
+Extensions to MDPs
+	- Infinite and continuous MDPs
+	- Partial observable MDPs
+	- Undiscounted, avergae reward MDPs

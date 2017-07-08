@@ -1,0 +1,148 @@
+Reinforcement Learning, course by David Silver:
+https://www.youtube.com/watch?v=2pWv7GOvuf0
+
+triggered by: https://github.com/Kyubyong/reinforcement-learning
+
+Book: http://incompleteideas.net/sutton/book/the-book.html
+
+Shorter book: https://sites.ualberta.ca/~szepesva/papers/RLAlgsInMDPs.pdf
+
+Notes:
+- RL is unsupervised
+	- more trial and error paradigm, only a rewards signal
+	- the feedback actually does not give instantaneous feedback from the reward (feedback delayed)
+	- Time really matters, sequential
+	- Agent can take actions affecting the data (active learning)
+
+The problem - reward is a scalar feedback signal
+indicates how well the agent is doing at step t
+agents job is to maximize cumulative reward (reward hypothesis)
+	- does not require intermediate rewards
+sequential decision making to maximize total future award
+	- not a greedy algorithm, reward maybe delayed, have long term consequences
+
+observation (Ot) -------> 
+						  X -----------> action (At) ---------> Environment
+reward (Rt) ------------>
+
+Can the rewards be placed in a vector space model, normalize on some space for complex reward systems??
+
+History is generated from the sequence of observations, actions, and rewards up to time t.
+	- use State to define the information used to determine what happens next
+	- formally state is a function of the history St = f(Ht)
+
+How to compress history into a nice summary for recall in future environments?
+
+Environment state:
+	- Ste the environments private representation
+	- environment state is not visible to the agent, algorithm does not depend on this state
+
+Agent State:
+	- Sta, used to pick the next action
+
+information state (Markov state):
+	- contains all useful information from the history
+	- the future is independent of the past given the present
+		 - Markov if and only if current probability, represents future probability
+		 - H[1:t] --> St --> H[t+1:infinity]
+		 - Markov allows us to throw away history since it is all represented in state
+		 - state is a sufficient statistic of the future
+
+The environment state and the history is also a Markov state
+
+Must build an agent state that is useful in predicting what happens next
+
+Full observability: agent directly observes environment state, Ot = Sta = Ste
+	- Agent State = Environment State = Information State
+	- Markov Decision Process (MDP) formally
+	- What is and is not observable in your case??
+
+Partial observability: agent indirectly observes the environment:
+	- agent state != environment state
+	- Partially Observable Markov Decision Process (POMDP), formally
+	- use the complete history as state, or build beliefs (probability distribution over where you think you are in the case), or recurrent neural network as an approach
+
+RL Agent Concepts:
+
+RL Agent Components:
+	- Policy: agent's behaviour function
+	- Value function: How good is each state and/or action (estimating how well we are doing in a particular situation)
+	- Model: agent's representation of the environment
+
+Policy:
+	- agent's behaviour (brain tries to figure out the best policy, maximize reward)
+	- a map from state to function
+	- deterministic policy: a = pi(s)
+	- stochastic policy
+
+Value function:
+	- prediction of future reward
+	- used to evaluate the goodness/badness of states
+	- therefore to select between actions (amount of reward depends on the policy)
+	- different value for every action
+	(in his example, he shows an 'oscilliscope' showing how well it is doing at any moment in time)
+	- set the number of steps into the future you can look, at the value or reward expected
+		- how to balance the risk? Mostly in trading or other applications, risk is not necessary to worry about
+
+Model: (not required for the Agent)
+	- predicts what the environment will do next (defined by two parts:)
+	- Transitions: P predicts the next state (based on the dynamics of the environment)
+	- Rewards: R predicts the next (immediate) reward
+		 Probability of the next state given the previous state
+		 also the reward given the current state and action
+
+To get the solution more quickly, indicated by Rewards: -1 per time step (penalties for length of time)
+Can define the mapping of states to actions in the POLICY. ex. direction of travel given your location (State)
+VALUE FUNCTION Value given your state, so you move towards the best value options (move to next state)
+MODEL: the grid layout defines the transition model, the number in each state (-1 in the example) represents the immediate reward from each state
+
+Categorizing RL Agents:
+Value Based
+	- if there is a value function, then the policy is implicit
+	- just always pick actions greedily based on the value function
+Policy Based:
+	- if there is a policy function, the value is implicit
+	- one that stores the policy
+Actor Critic
+	- stores both policy and the value
+	- Policy
+	- Value Function
+
+Model Free
+	- Policy and/or Value Function
+	- See experience and just figure out the policy, not understanding the environment
+Model Based
+	- Policy and/or Value function
+	- Model (figure out the optimal way to behave based on the environment/model)
+
+Problems within Reinforcement Learning:
+	2 fundamental problems in sequential decision making
+		- reinforcement learning
+			- the environment is initially unknown
+			- the agent interacts with the environment in order to understand the environment (trial and error)
+			- The agent improves it's policy
+		- planning
+			- the model of the enironment is known
+			- the agent performs computations with its model(without any external interaction)
+			- the agent improves its policy
+		- can be linked by learning the environment through RL and then set up planning
+
+	planning can build a tree search based on the perfect environment model inside the agent's brain
+
+	Reinforcement learning is like trial and error learning (agent will lose award along the way)
+	the agent should discover a good policy
+	from it's experiences of the environment
+	without losing to much reward along the way
+
+	Exploration finds more information about the environment
+	Exploitation exploits the known information to maximise reward
+	this is a tradeoff, it is usually important to explore as well as exploit
+
+	Prediction and Control:
+		Prediction: evaluate the future
+			given a policy
+		Control: optimise the future
+			find the best policy
+		What is the optimal value function over all possible policies
+			- versus the random value, which is the prediction and not optimized
+		what is the optimal policy
