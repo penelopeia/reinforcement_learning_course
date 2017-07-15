@@ -1,0 +1,86 @@
+It is the authors belief that evolutionary methods are inferior to reinforcement learning
+	- sounds interesting though, since they do not rely on a value system
+
+It seems RL might always be a sequential problem, since it is always linked to time. Can this actually be a limitation to the theory? OR possibly misleading?
+
+Tic-Tac-Toe example
+
+- classical "minimax" solution from game theory will not work, because this would assume the opponent plays the same moves everytime
+- Use Classical optimization methods, for sequential decision problems:
+	- dynamic programming
+- to best outwit an opponent, long term play allows us to build a model of the probabilities of the actions an opponent might take
+	- learn a model of the opponents behavior up to some level of confidence, then apply dynamic programming
+- evolutionary method would directly search the space of possible policies for one with a high probability of winning against the opponent
+	- a policy is a rule that tells the player what move to make for every state of the game-every possible configuration of X/O
+	- typical evolutionary method would hill climb in policy space, for incremental improvements
+
+- A method making use of the value function would either choose a greedily or make an exploratory move.
+	- exploratory moves cause us to experience states that we might otherwise never see
+
+Temporal-difference learning (because its changes are based on a difference)
+- step-size parameter: influences the rate of learning (can be reduced over time, then the method can converge)
+
+- Evolutionary technique, disregards what happens during the games, and only cares about the result of the game to make conclusions of it's policies
+	- so if a player wins, then all the moves are given credit for winning, independant of how much a move helped or not
+- reinforcement learning can achieve the effects of planning and look ahead, setting multimove traps
+
+- game with no adversary, a "game against nature"
+- neural networks can be used in order to generalize from a large dataset of experience for the agent
+	- so in new states, the agent can use generalizations from other states
+
+
+		Exercise 1.1: Self-Play Suppose, instead of playing against a random opponent,
+		the reinforcement learning algorithm described above played against itself, with both
+		sides learning. What do you think would happen in this case? Would it learn a
+		different policy for selecting moves?
+
+		Exercise 1.2: Symmetries Many tic-tac-toe positions appear different but are really
+		the same because of symmetries. How might we amend the learning process described
+		above to take advantage of this? In what ways would this change improve the
+		learning process? Now think again. Suppose the opponent did not take advantage of
+		symmetries. In that case, should we? Is it true, then, that symmetrically equivalent
+		positions should necessarily have the same value?
+
+		Exercise 1.3: Greedy Play Suppose the reinforcement learning player was greedy,
+		that is, it always played the move that brought it to the position that it rated the best.
+		Might it learn to play better, or worse, than a nongreedy player? What problems
+		might occur?
+
+		Exercise 1.4: Learning from Exploration Suppose learning updates occurred after
+		all moves, including exploratory moves. If the step-size parameter is appropriately
+		reduced over time (but not the tendency to explore), then the state values would
+		converge to a set of probabilities. What are the two sets of probabilities computed
+		when we do, and when we do not, learn from exploratory moves? Assuming that we
+		do continue to make exploratory moves, which set of probabilities might be better
+		to learn? Which would result in more wins?
+
+		Exercise 1.5: Other Improvements Can you think of other ways to improve the
+		reinforcement learning player? Can you think of any better way to solve the tic-tactoe
+		problem as posed? 
+
+- history is discussed next, but the Bellman equation came up...
+	- the class of methods used for solving the Bellman Equation is called dynamic programming
+	- Markovian Decision Processes (MDP's) are the deiscrete stochastic version of the optimal control problem
+- dynamic programming is widely considered the only feasible way of solving general stochastic optimal control problems
+
+- In pyschology trial and error by animal behavior is called "Law of Effect"
+- Reinforcement is the strengthening of a pattern of behavior as a result of an animal receiving a stimulus-a reinforcer-in an appropriate temporal relationship with another stimulus or with a response.
+	- turing seemed to lean more genetic algorithmy with the "pleasure-pain system"
+
+- how do you assign credit to the many decisions that may have been involved in producing it?
+	“Steps Toward Artificial Intelligence” (Minsky, 1961)
+
+learning automata:
+	- methods to solve nonassociative, selectional learning, known as the k-armed bandit, by analogy to a slot machine (one armed bandit) with k levers
+	- study of stochastic learning automata
+
+1981 Actor-Critic architecture
+	- good for the pole balancing 'BOXES' problem
+1989 Q-Learning
+
+Maximizing based upon a random quantity can imply risk, due to the quantities variance that may not be taken into account
+
+utility theory
+	- measuring peoples desires
+
+
